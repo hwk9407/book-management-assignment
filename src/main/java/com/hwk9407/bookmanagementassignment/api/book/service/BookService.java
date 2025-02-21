@@ -2,24 +2,41 @@ package com.hwk9407.bookmanagementassignment.api.book.service;
 
 import com.hwk9407.bookmanagementassignment.api.book.dto.request.AddBookRequest;
 import com.hwk9407.bookmanagementassignment.api.book.dto.response.AddBookResponse;
+import com.hwk9407.bookmanagementassignment.domain.author.Author;
+import com.hwk9407.bookmanagementassignment.domain.author.AuthorRepository;
+import com.hwk9407.bookmanagementassignment.domain.book.Book;
 import com.hwk9407.bookmanagementassignment.domain.book.BookRepository;
+import com.hwk9407.bookmanagementassignment.domain.book.IsbnValidator;
+import com.hwk9407.bookmanagementassignment.exception.InvalidIsbnException;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final IsbnValidator isbnValidator;
+    private final AuthorRepository authorRepository;
 
+    @Transactional
     public AddBookResponse addBook(@Valid AddBookRequest req) {
-        // isbn 유효성 검사 (숫자 여부, 길이 체크, 마지막 자리 0 체크)
-        // isbn 이 DB에 이미 있는지 중복 검사
-        // 저자가 DB에 존재하는지 검사
-        // 새로운 책 엔티티 생성 후 저장
-        // 저장된 엔티티를 DTO 에 담아 반환
-
-        return null;
+        isbnValidator.validate(req.isbn());
+        if (bookRepository.existsByIsbn(req.isbn())) {
+            throw new InvalidIsbnException("Isbn이 이미 존재합니다.");
+        }
+        Author author = authorRepository.findById(req.authorId())
+                .orElseThrow(() -> new EntityNotFoundException("존재하지 않는 저자 ID 입니다."));
+        Book book = bookRepository.save(Book.builder()
+                .title(req.title())
+                .description(req.description())
+                .isbn(req.isbn())
+                .publicationDate(req.publicationDate())
+                .author(author)
+                .build());
+        return new AddBookResponse(book.getId());
     }
 }
