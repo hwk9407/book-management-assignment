@@ -77,4 +77,11 @@ public class BookService {
                 author
         );
     }
+
+    public void deleteBook(Long id) {
+        bookRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("조회되지 않는 책 ID 입니다.")
+        );
+        bookRepository.deleteById(id);
+    }
 }
