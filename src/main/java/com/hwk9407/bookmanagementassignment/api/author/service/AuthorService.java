@@ -1,6 +1,7 @@
 package com.hwk9407.bookmanagementassignment.api.author.service;
 
 import com.hwk9407.bookmanagementassignment.api.author.dto.request.AddAuthorRequest;
+import com.hwk9407.bookmanagementassignment.api.author.dto.request.UpdateAuthorRequest;
 import com.hwk9407.bookmanagementassignment.api.author.dto.response.AddAuthorResponse;
 import com.hwk9407.bookmanagementassignment.api.author.dto.response.RetrieveAllAuthorsResponse;
 import com.hwk9407.bookmanagementassignment.api.author.dto.response.RetrieveAuthorResponse;
@@ -8,6 +9,7 @@ import com.hwk9407.bookmanagementassignment.domain.author.Author;
 import com.hwk9407.bookmanagementassignment.domain.author.AuthorRepository;
 import com.hwk9407.bookmanagementassignment.exception.EmailAlreadyExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -44,5 +46,12 @@ public class AuthorService {
                 () -> new EntityNotFoundException("조회되지 않는 저자 ID 입니다.")
         );
         return RetrieveAuthorResponse.from(author);
+    }
+
+    @Transactional
+    public void updateAuthor(Long id, @Valid UpdateAuthorRequest req) {
+        // DB에 저자 id가 있는지 확인 없으면 예외 처리
+        // 바꾸려는 이메일이 현재 이메일과 기존 이메일과 다르고, DB에 존재하는 이메일 이라면 예외 처리
+        // Author update 메서드로 수정 행위 위임
     }
 }

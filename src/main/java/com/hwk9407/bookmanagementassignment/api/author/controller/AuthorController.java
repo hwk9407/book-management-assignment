@@ -1,10 +1,12 @@
 package com.hwk9407.bookmanagementassignment.api.author.controller;
 
 import com.hwk9407.bookmanagementassignment.api.author.dto.request.AddAuthorRequest;
+import com.hwk9407.bookmanagementassignment.api.author.dto.request.UpdateAuthorRequest;
 import com.hwk9407.bookmanagementassignment.api.author.dto.response.AddAuthorResponse;
 import com.hwk9407.bookmanagementassignment.api.author.dto.response.RetrieveAllAuthorsResponse;
 import com.hwk9407.bookmanagementassignment.api.author.dto.response.RetrieveAuthorResponse;
 import com.hwk9407.bookmanagementassignment.api.author.service.AuthorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,5 +42,13 @@ public class AuthorController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(res);
+    }
+
+    @PatchMapping("/authors/{id}")
+    public ResponseEntity<Void> updateAuthor (@PathVariable Long id, @Valid @RequestBody UpdateAuthorRequest req) {
+        authorService.updateAuthor(id, req);
+        return ResponseEntity
+                .ok()
+                .build();
     }
 }
