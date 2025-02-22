@@ -51,9 +51,9 @@ public class BookService {
     }
 
     public RetrieveBookResponse retrieveBook(Long id) {
-        // 해당 아이디로 되어있는 책 DB에서 조회
-        // 없을 시 EntityNotFound 예외 발생
-        // Entity -> Response Dto로 변환 후 반환
-        return null;
+        Book book = bookRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("조회되지 않는 책 ID 입니다.")
+        );
+        return RetrieveBookResponse.from(book);
     }
 }
