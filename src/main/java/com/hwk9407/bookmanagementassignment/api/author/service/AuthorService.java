@@ -50,8 +50,15 @@ public class AuthorService {
 
     @Transactional
     public void updateAuthor(Long id, @Valid UpdateAuthorRequest req) {
-        // DB에 저자 id가 있는지 확인 없으면 예외 처리
-        // 바꾸려는 이메일이 현재 이메일과 기존 이메일과 다르고, DB에 존재하는 이메일 이라면 예외 처리
-        // Author update 메서드로 수정 행위 위임
+        Author author = authorRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("조회되지 않는 저자 ID 입니다.")
+        );
+        if (req.email() != null && !author.getEmail().equals(req.email()) && authorRepository.existsByEmail(req.email())) {
+            throw new EmailAlreadyExistsException("이미 존재하는 이메일입니다.");
+        }
+        author.update(
+                req.name(),
+                req.email()
+        );
     }
 }
