@@ -68,4 +68,14 @@ public class GlobalExceptionHandler {
                 .status(status)
                 .body(errorResponse);
     }
+
+    @ExceptionHandler(CannotDeleteAuthorException.class)
+    public ResponseEntity<ErrorResponse> cannotDeleteAuthorException(CannotDeleteAuthorException e) {
+        HttpStatus status = HttpStatus.CONFLICT; // 409 Conflict
+        ErrorResponse errorResponse = ErrorResponse.of(status.value(), LocalDateTime.now(), e.getMessage());
+
+        return ResponseEntity
+                .status(status)
+                .body(errorResponse);
+    }
 }
