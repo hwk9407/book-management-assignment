@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -40,5 +41,13 @@ public class Book {
         this.isbn = isbn;
         this.publicationDate = publicationDate;
         this.author = author;
+    }
+
+    public void update(String title, String description, String isbn, LocalDate publicationDate, Author author) {
+        this.title = Objects.requireNonNullElse(title, this.title);
+        this.description = Objects.requireNonNullElse(description, this.description);
+        this.isbn = Objects.requireNonNullElse(isbn, this.isbn);
+        this.publicationDate = Objects.requireNonNullElse(publicationDate, this.publicationDate);
+        this.author = Objects.requireNonNullElse(author, this.author);
     }
 }
