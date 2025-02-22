@@ -1,6 +1,7 @@
 package com.hwk9407.bookmanagementassignment.api.book.controller;
 
 import com.hwk9407.bookmanagementassignment.api.book.dto.request.AddBookRequest;
+import com.hwk9407.bookmanagementassignment.api.book.dto.request.UpdateBookRequest;
 import com.hwk9407.bookmanagementassignment.api.book.dto.response.AddBookResponse;
 import com.hwk9407.bookmanagementassignment.api.book.dto.response.RetrieveAllBooksResponse;
 import com.hwk9407.bookmanagementassignment.api.book.dto.response.RetrieveBookResponse;
@@ -41,5 +42,13 @@ public class BookController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(res);
+    }
+
+    @PatchMapping("/books/{id}")
+    public ResponseEntity<Void> updateBook (@PathVariable Long id, @Valid @RequestBody UpdateBookRequest req) {
+        bookService.updateBook(id, req);
+        return ResponseEntity
+                .ok()
+                .build();
     }
 }

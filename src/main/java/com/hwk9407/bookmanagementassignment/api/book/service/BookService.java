@@ -1,6 +1,7 @@
 package com.hwk9407.bookmanagementassignment.api.book.service;
 
 import com.hwk9407.bookmanagementassignment.api.book.dto.request.AddBookRequest;
+import com.hwk9407.bookmanagementassignment.api.book.dto.request.UpdateBookRequest;
 import com.hwk9407.bookmanagementassignment.api.book.dto.response.AddBookResponse;
 import com.hwk9407.bookmanagementassignment.api.book.dto.response.RetrieveAllBooksResponse;
 import com.hwk9407.bookmanagementassignment.api.book.dto.response.RetrieveBookResponse;
@@ -55,5 +56,25 @@ public class BookService {
                 () -> new EntityNotFoundException("조회되지 않는 책 ID 입니다.")
         );
         return RetrieveBookResponse.from(book);
+    }
+
+    @Transactional
+    public void updateBook(Long id, UpdateBookRequest req) {
+        if (req.isbn() != null) {
+            isbnValidator.validate(req.isbn());
+        }
+        Book book = bookRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("조회되지 않는 책 ID 입니다.")
+        );
+        Author author = (req.authorId() != null) ? authorRepository.findById(req.authorId()).orElseThrow(
+                () -> new EntityNotFoundException("존재하지 않는 저자 ID 입니다.")
+        ) : null;
+        book.update(
+                req.title(),
+                req.description(),
+                req.isbn(),
+                req.publicationDate(),
+                author
+        );
     }
 }
