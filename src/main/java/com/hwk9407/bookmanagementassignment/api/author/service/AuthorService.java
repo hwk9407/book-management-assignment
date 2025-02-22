@@ -10,6 +10,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AuthorService {
@@ -28,9 +30,9 @@ public class AuthorService {
         return new AddAuthorResponse(author.getId());
     }
 
+    @Transactional(readOnly = true)
     public RetrieveAllAuthorsResponse retrieveAllAuthors() {
-        // DB에서 전체 저자를 조회하고 List<Author> 에 담음
-        // response Dto 파라미터에 넣어 반환
-        return null;
+        List<Author> authors = authorRepository.findAll();
+        return RetrieveAllAuthorsResponse.from(authors);
     }
 }
