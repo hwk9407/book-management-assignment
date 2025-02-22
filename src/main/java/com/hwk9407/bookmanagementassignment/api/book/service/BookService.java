@@ -3,6 +3,7 @@ package com.hwk9407.bookmanagementassignment.api.book.service;
 import com.hwk9407.bookmanagementassignment.api.book.dto.request.AddBookRequest;
 import com.hwk9407.bookmanagementassignment.api.book.dto.response.AddBookResponse;
 import com.hwk9407.bookmanagementassignment.api.book.dto.response.RetrieveAllBooksResponse;
+import com.hwk9407.bookmanagementassignment.api.book.dto.response.RetrieveBookResponse;
 import com.hwk9407.bookmanagementassignment.domain.author.Author;
 import com.hwk9407.bookmanagementassignment.domain.author.AuthorRepository;
 import com.hwk9407.bookmanagementassignment.domain.book.Book;
@@ -47,5 +48,12 @@ public class BookService {
     public RetrieveAllBooksResponse retrieveAllBooks() {
         List<Book> books = bookRepository.findAll();
         return RetrieveAllBooksResponse.from(books);
+    }
+
+    public RetrieveBookResponse retrieveBook(Long id) {
+        // 해당 아이디로 되어있는 책 DB에서 조회
+        // 없을 시 EntityNotFound 예외 발생
+        // Entity -> Response Dto로 변환 후 반환
+        return null;
     }
 }

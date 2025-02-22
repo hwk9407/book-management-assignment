@@ -3,15 +3,13 @@ package com.hwk9407.bookmanagementassignment.api.book.controller;
 import com.hwk9407.bookmanagementassignment.api.book.dto.request.AddBookRequest;
 import com.hwk9407.bookmanagementassignment.api.book.dto.response.AddBookResponse;
 import com.hwk9407.bookmanagementassignment.api.book.dto.response.RetrieveAllBooksResponse;
+import com.hwk9407.bookmanagementassignment.api.book.dto.response.RetrieveBookResponse;
 import com.hwk9407.bookmanagementassignment.api.book.service.BookService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 
@@ -32,6 +30,14 @@ public class BookController {
     @GetMapping("/books")
     public ResponseEntity<RetrieveAllBooksResponse> retrieveAllBooks () { // todo: 페이지네이션 적용 필요
         RetrieveAllBooksResponse res = bookService.retrieveAllBooks();
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(res);
+    }
+
+    @GetMapping("/books/{id}")
+    public ResponseEntity<RetrieveBookResponse> retrieveBook (@PathVariable Long id) {
+        RetrieveBookResponse res = bookService.retrieveBook(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(res);
