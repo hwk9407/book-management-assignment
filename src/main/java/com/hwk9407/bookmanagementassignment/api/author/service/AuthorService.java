@@ -2,6 +2,7 @@ package com.hwk9407.bookmanagementassignment.api.author.service;
 
 import com.hwk9407.bookmanagementassignment.api.author.dto.request.AddAuthorRequest;
 import com.hwk9407.bookmanagementassignment.api.author.dto.response.AddAuthorResponse;
+import com.hwk9407.bookmanagementassignment.api.author.dto.response.RetrieveAllAuthorsResponse;
 import com.hwk9407.bookmanagementassignment.domain.author.Author;
 import com.hwk9407.bookmanagementassignment.domain.author.AuthorRepository;
 import com.hwk9407.bookmanagementassignment.exception.EmailAlreadyExistsException;
@@ -25,5 +26,11 @@ public class AuthorService {
                 .email(req.email())
                 .build());
         return new AddAuthorResponse(author.getId());
+    }
+
+    public RetrieveAllAuthorsResponse retrieveAllAuthors() {
+        // DB에서 전체 저자를 조회하고 List<Author> 에 담음
+        // response Dto 파라미터에 넣어 반환
+        return null;
     }
 }
