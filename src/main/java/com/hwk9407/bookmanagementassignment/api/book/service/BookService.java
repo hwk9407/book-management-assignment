@@ -15,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class BookService {
@@ -41,9 +43,9 @@ public class BookService {
         return new AddBookResponse(book.getId());
     }
 
+    @Transactional(readOnly = true)
     public RetrieveAllBooksResponse retrieveAllBooks() {
-        // 모든 도서를 조회해서 Book Entity들을 List에 저장
-        // 저장된 Entity -> Response로 변환 후 반환
-        return null;
+        List<Book> books = bookRepository.findAll();
+        return RetrieveAllBooksResponse.from(books);
     }
 }
