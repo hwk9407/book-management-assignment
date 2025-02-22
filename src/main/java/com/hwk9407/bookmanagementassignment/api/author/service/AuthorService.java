@@ -7,6 +7,8 @@ import com.hwk9407.bookmanagementassignment.api.author.dto.response.RetrieveAllA
 import com.hwk9407.bookmanagementassignment.api.author.dto.response.RetrieveAuthorResponse;
 import com.hwk9407.bookmanagementassignment.domain.author.Author;
 import com.hwk9407.bookmanagementassignment.domain.author.AuthorRepository;
+import com.hwk9407.bookmanagementassignment.domain.book.BookRepository;
+import com.hwk9407.bookmanagementassignment.exception.CannotDeleteAuthorException;
 import com.hwk9407.bookmanagementassignment.exception.EmailAlreadyExistsException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -21,6 +23,7 @@ import java.util.List;
 public class AuthorService {
 
     private final AuthorRepository authorRepository;
+    private final BookRepository bookRepository;
 
     @Transactional
     public AddAuthorResponse addAuthor(AddAuthorRequest req) {
@@ -60,5 +63,16 @@ public class AuthorService {
                 req.name(),
                 req.email()
         );
+    }
+
+    @Transactional
+    public void deleteAuthor(Long id) {
+        Author author = authorRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("조회되지 않는 저자 ID 입니다.")
+        );
+        if (bookRepository.existsByAuthor(author)) {
+            throw new CannotDeleteAuthorException("연관된 책이 존재하여 저자를 삭제할 수 없습니다.");
+        }
+        authorRepository.delete(author);
     }
 }
