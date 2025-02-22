@@ -2,6 +2,7 @@ package com.hwk9407.bookmanagementassignment.api.book.service;
 
 import com.hwk9407.bookmanagementassignment.api.book.dto.request.AddBookRequest;
 import com.hwk9407.bookmanagementassignment.api.book.dto.response.AddBookResponse;
+import com.hwk9407.bookmanagementassignment.api.book.dto.response.RetrieveAllBooksResponse;
 import com.hwk9407.bookmanagementassignment.domain.author.Author;
 import com.hwk9407.bookmanagementassignment.domain.author.AuthorRepository;
 import com.hwk9407.bookmanagementassignment.domain.book.Book;
@@ -38,5 +39,11 @@ public class BookService {
                 .author(author)
                 .build());
         return new AddBookResponse(book.getId());
+    }
+
+    public RetrieveAllBooksResponse retrieveAllBooks() {
+        // 모든 도서를 조회해서 Book Entity들을 List에 저장
+        // 저장된 Entity -> Response로 변환 후 반환
+        return null;
     }
 }
