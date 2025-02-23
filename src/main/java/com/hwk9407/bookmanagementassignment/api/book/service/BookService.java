@@ -47,7 +47,7 @@ public class BookService {
 
     @Transactional(readOnly = true)
     public RetrieveAllBooksResponse retrieveAllBooks() {
-        List<Book> books = bookRepository.findAll();
+        List<Book> books = bookRepository.findAllWithAuthors();
         return RetrieveAllBooksResponse.from(books);
     }
 
