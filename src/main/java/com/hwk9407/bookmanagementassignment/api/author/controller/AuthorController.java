@@ -21,7 +21,7 @@ public class AuthorController {
     private final AuthorService authorService;
 
     @PostMapping("/authors")
-    public ResponseEntity<Void> addAuthor(@RequestBody AddAuthorRequest req) {
+    public ResponseEntity<Void> addAuthor(@Valid @RequestBody AddAuthorRequest req) {
         AddAuthorResponse res = authorService.addAuthor(req);
         return ResponseEntity
                 .created(URI.create(String.valueOf(res.id())))
