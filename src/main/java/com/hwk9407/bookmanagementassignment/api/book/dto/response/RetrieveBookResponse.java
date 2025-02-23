@@ -9,7 +9,8 @@ public record RetrieveBookResponse(
         String description,
         String isbn,
         LocalDate publicationDate,
-        Long authorId
+        Long authorId,
+        String authorName
 ) {
 
     public static RetrieveBookResponse from(Book book) {
@@ -18,7 +19,8 @@ public record RetrieveBookResponse(
                 book.getDescription(),
                 book.getIsbn(),
                 book.getPublicationDate(),
-                book.getAuthor().getId()
+                book.getAuthor().getId(),
+                book.getAuthor().getName()
         );
     }
 }
