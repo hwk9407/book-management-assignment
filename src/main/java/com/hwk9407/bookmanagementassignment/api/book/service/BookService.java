@@ -51,6 +51,7 @@ public class BookService {
         return RetrieveAllBooksResponse.from(books);
     }
 
+    @Transactional(readOnly = true)
     public RetrieveBookResponse retrieveBook(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("조회되지 않는 책 ID 입니다.")
