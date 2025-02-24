@@ -1,10 +1,12 @@
 package com.hwk9407.bookmanagementassignment.api.author.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 public record AddAuthorRequest(
 
+        @Schema(description = "저자 이름", example = "홍길동")
         @NotBlank
         @Pattern(
                 regexp = "^(?=.*[a-zA-Z가-힣])[a-zA-Z가-힣\\s]{1,30}$",
@@ -12,6 +14,7 @@ public record AddAuthorRequest(
         )
         String name,
 
+        @Schema(description = "이메일 (고유 값)", example = "abc@example.com")
         @NotBlank
         @Pattern(
                 regexp = "^[a-zA-Z0-9._+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$",
