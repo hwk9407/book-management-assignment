@@ -1,11 +1,14 @@
 package com.hwk9407.bookmanagementassignment.api.author.controller;
 
 import com.hwk9407.bookmanagementassignment.api.author.dto.request.AddAuthorRequest;
+import com.hwk9407.bookmanagementassignment.api.author.dto.request.RetrieveAllAuthorsRequest;
 import com.hwk9407.bookmanagementassignment.api.author.dto.request.UpdateAuthorRequest;
 import com.hwk9407.bookmanagementassignment.api.author.dto.response.AddAuthorResponse;
 import com.hwk9407.bookmanagementassignment.api.author.dto.response.RetrieveAllAuthorsResponse;
 import com.hwk9407.bookmanagementassignment.api.author.dto.response.RetrieveAuthorResponse;
 import com.hwk9407.bookmanagementassignment.api.author.service.AuthorService;
+import com.hwk9407.bookmanagementassignment.api.book.dto.request.RetrieveAllBooksRequest;
+import com.hwk9407.bookmanagementassignment.util.DtoValidator;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,6 +22,7 @@ import java.net.URI;
 public class AuthorController {
 
     private final AuthorService authorService;
+    private final DtoValidator dtoValidator;
 
     @PostMapping("/authors")
     public ResponseEntity<Void> addAuthor(@Valid @RequestBody AddAuthorRequest req) {
@@ -29,8 +33,13 @@ public class AuthorController {
     }
 
     @GetMapping("/authors")
-    public ResponseEntity<RetrieveAllAuthorsResponse> retrieveAllAuthors() { // todo: 페이지네이션 적용 필요
-        RetrieveAllAuthorsResponse res = authorService.retrieveAllAuthors();
+    public ResponseEntity<RetrieveAllAuthorsResponse> retrieveAllAuthors(
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size
+    ) {
+        RetrieveAllAuthorsRequest req = new RetrieveAllAuthorsRequest(page, size);
+        dtoValidator.validate(req);
+        RetrieveAllAuthorsResponse res = authorService.retrieveAllAuthors(req);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(res);

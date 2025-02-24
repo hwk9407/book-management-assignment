@@ -1,18 +1,25 @@
 package com.hwk9407.bookmanagementassignment.api.book.dto.response;
 
 import com.hwk9407.bookmanagementassignment.domain.book.Book;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
 public record RetrieveAllBooksResponse(
-        List<RetrieveBookResponse> contents
+        List<RetrieveBookResponse> contents,
+        int page,
+        int size,
+        int totalPage
 ) {
 
-    public static RetrieveAllBooksResponse from(List<Book> books) {
+    public static RetrieveAllBooksResponse from(Page<Book> books) {
         return new RetrieveAllBooksResponse(
-                books.stream()
+                books.getContent().stream()
                         .map(RetrieveBookResponse::from)
-                        .toList()
+                        .toList(),
+                books.getNumber() + 1,
+                books.getSize(),
+                books.getTotalPages()
         );
     }
 }

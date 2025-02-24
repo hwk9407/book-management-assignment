@@ -1,6 +1,7 @@
 package com.hwk9407.bookmanagementassignment.api.book.service;
 
 import com.hwk9407.bookmanagementassignment.api.book.dto.request.AddBookRequest;
+import com.hwk9407.bookmanagementassignment.api.book.dto.request.RetrieveAllBooksRequest;
 import com.hwk9407.bookmanagementassignment.api.book.dto.request.UpdateBookRequest;
 import com.hwk9407.bookmanagementassignment.api.book.dto.response.AddBookResponse;
 import com.hwk9407.bookmanagementassignment.api.book.dto.response.RetrieveAllBooksResponse;
@@ -9,15 +10,17 @@ import com.hwk9407.bookmanagementassignment.domain.author.Author;
 import com.hwk9407.bookmanagementassignment.domain.author.AuthorRepository;
 import com.hwk9407.bookmanagementassignment.domain.book.Book;
 import com.hwk9407.bookmanagementassignment.domain.book.BookRepository;
-import com.hwk9407.bookmanagementassignment.domain.book.IsbnValidator;
+import com.hwk9407.bookmanagementassignment.api.book.validator.IsbnValidator;
 import com.hwk9407.bookmanagementassignment.exception.InvalidIsbnException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -46,11 +49,16 @@ public class BookService {
     }
 
     @Transactional(readOnly = true)
-    public RetrieveAllBooksResponse retrieveAllBooks() {
-        List<Book> books = bookRepository.findAll();
+    public RetrieveAllBooksResponse retrieveAllBooks(RetrieveAllBooksRequest req) {
+        Sort.Direction direction = "ASC".equalsIgnoreCase(req.orderBy()) ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, req.sortBy());
+        Pageable pageable = PageRequest.of(req.page() - 1, req.size(), sort);
+        Page<Book> books = bookRepository.retrieveBooksWithFilter(req.authorId(), req.startPubDate(), req.endPubDate(), pageable);
+
         return RetrieveAllBooksResponse.from(books);
     }
 
+    @Transactional(readOnly = true)
     public RetrieveBookResponse retrieveBook(Long id) {
         Book book = bookRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("조회되지 않는 책 ID 입니다.")
