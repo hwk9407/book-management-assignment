@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 public record UpdateBookRequest(
 
-        @Pattern(regexp = "^(?!\\s*$).+", message = "빈 문자열이나 공백으로만 작성할 수 없습니다.")
+        @Pattern(regexp = "^(?!\\s*$).+", message = "빈 문자열이나 공백으로만 작성할 수 없습니다")
         String title,
 
         String description,
