@@ -1,6 +1,7 @@
 package com.hwk9407.bookmanagementassignment.api.author.service;
 
 import com.hwk9407.bookmanagementassignment.api.author.dto.request.AddAuthorRequest;
+import com.hwk9407.bookmanagementassignment.api.author.dto.request.RetrieveAllAuthorsRequest;
 import com.hwk9407.bookmanagementassignment.api.author.dto.request.UpdateAuthorRequest;
 import com.hwk9407.bookmanagementassignment.api.author.dto.response.AddAuthorResponse;
 import com.hwk9407.bookmanagementassignment.api.author.dto.response.RetrieveAllAuthorsResponse;
@@ -13,6 +14,10 @@ import com.hwk9407.bookmanagementassignment.exception.EmailAlreadyExistsExceptio
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -38,8 +43,9 @@ public class AuthorService {
     }
 
     @Transactional(readOnly = true)
-    public RetrieveAllAuthorsResponse retrieveAllAuthors() {
-        List<Author> authors = authorRepository.findAll();
+    public RetrieveAllAuthorsResponse retrieveAllAuthors(RetrieveAllAuthorsRequest req) {
+        Pageable pageable = PageRequest.of(req.page() - 1, req.size());
+        Page<Author> authors = authorRepository.findAll(pageable);
         return RetrieveAllAuthorsResponse.from(authors);
     }
 
