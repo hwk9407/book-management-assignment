@@ -1,6 +1,5 @@
-package com.hwk9407.bookmanagementassignment.domain.book;
+package com.hwk9407.bookmanagementassignment.api.book.validator;
 
-import com.hwk9407.bookmanagementassignment.api.book.validator.IsbnValidator;
 import com.hwk9407.bookmanagementassignment.exception.InvalidIsbnException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
