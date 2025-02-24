@@ -15,7 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class BookRepositoryQueryImpl implements BookRepositoryQuery {
 
-    private JPAQueryFactory queryFactory;
+    private final JPAQueryFactory queryFactory;
     QBook book = QBook.book;
 
     @Override
