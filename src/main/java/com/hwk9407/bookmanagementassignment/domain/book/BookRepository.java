@@ -7,7 +7,7 @@ package com.hwk9407.bookmanagementassignment.domain.book;
 
  import java.util.List;
 
-public interface BookRepository extends JpaRepository<Book, Long> {
+public interface BookRepository extends JpaRepository<Book, Long>, BookRepositoryQuery {
 
     boolean existsByIsbn(String isbn);
 
