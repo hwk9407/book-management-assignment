@@ -9,7 +9,7 @@ import com.hwk9407.bookmanagementassignment.domain.author.Author;
 import com.hwk9407.bookmanagementassignment.domain.author.AuthorRepository;
 import com.hwk9407.bookmanagementassignment.domain.book.Book;
 import com.hwk9407.bookmanagementassignment.domain.book.BookRepository;
-import com.hwk9407.bookmanagementassignment.domain.book.IsbnValidator;
+import com.hwk9407.bookmanagementassignment.api.book.validator.IsbnValidator;
 import com.hwk9407.bookmanagementassignment.exception.InvalidIsbnException;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
