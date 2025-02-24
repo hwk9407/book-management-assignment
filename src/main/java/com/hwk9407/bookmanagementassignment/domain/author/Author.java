@@ -29,7 +29,7 @@ public class Author {
     }
 
     public void update(String name, String email) {
-        this.name = Objects.requireNonNull(name, this.name);
-        this.email = Objects.requireNonNull(email, this.email);
+        this.name = Objects.requireNonNullElse(name, this.name);
+        this.email = Objects.requireNonNullElse(email, this.email);
     }
 }
