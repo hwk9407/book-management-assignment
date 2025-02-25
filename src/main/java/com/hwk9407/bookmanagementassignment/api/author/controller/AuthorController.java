@@ -85,7 +85,8 @@ public class AuthorController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "수정 성공"),
             @ApiResponse(responseCode = "400", description = "잘못된 요청"),
-            @ApiResponse(responseCode = "404", description = "존재하지 않는 저자")
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 저자"),
+            @ApiResponse(responseCode = "409", description = "중복된 이메일로 인한 충돌")
     })
     @PatchMapping("/authors/{id}")
     public ResponseEntity<Void> updateAuthor (
