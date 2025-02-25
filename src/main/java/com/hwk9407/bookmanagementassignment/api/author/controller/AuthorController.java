@@ -7,7 +7,6 @@ import com.hwk9407.bookmanagementassignment.api.author.dto.response.AddAuthorRes
 import com.hwk9407.bookmanagementassignment.api.author.dto.response.RetrieveAllAuthorsResponse;
 import com.hwk9407.bookmanagementassignment.api.author.dto.response.RetrieveAuthorResponse;
 import com.hwk9407.bookmanagementassignment.api.author.service.AuthorService;
-import com.hwk9407.bookmanagementassignment.api.book.dto.request.RetrieveAllBooksRequest;
 import com.hwk9407.bookmanagementassignment.util.DtoValidator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -101,7 +100,7 @@ public class AuthorController {
                 .build();
     }
 
-    @Operation(summary = "저자 삭제", description = "특정 저자를 삭제합니다.")
+    @Operation(summary = "저자 삭제", description = "특정 저자를 삭제합니다. 만약 연관된 도서가 존재할 시 삭제 불가능합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "204", description = "삭제 성공"),
             @ApiResponse(responseCode = "400", description = "삭제할 수 없는 저자 (연관된 도서 존재)"),
